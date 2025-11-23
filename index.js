@@ -56,11 +56,9 @@ function handleLogout() {
     if (confirmation) {
         // Clear everything related to login
         localStorage.removeItem("loginData");
-        localStorage.removeItem("userName");
-        localStorage.removeItem("posts"); // optional: remove all posts if you want
 
         // Redirect to login page
-        window.location.href="../signup/"
+        window.location.href="./login/login.html"
     }
 }
 
