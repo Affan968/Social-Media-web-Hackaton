@@ -17,9 +17,15 @@
     box-sizing: border-box;
 }
 
+/* Ensure HTML is full height for viewport sizing */
+html {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
+    height: 100%; /* Ensures full height for layout-container */
 }
 
 .body-base {
@@ -32,10 +38,10 @@ body {
 .layout-container {
     display: flex;
     height: 100vh;
-    overflow: hidden;
+    overflow: hidden; /* Prevent double scrollbar on the main viewport */
 }
 
-/* --- Sidebar Styling --- */
+/* --- Sidebar Styling (Mobile First: Hidden) --- */
 .sidebar {
     width: 16rem; 
     background-color: var(--sidebar-bg);
@@ -45,6 +51,34 @@ body {
     flex-direction: column;
     padding: 1rem; 
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* MOBILE CHANGES START: Fixed and Hidden */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 40; 
+    transform: translateX(-100%); /* Hiding the sidebar */
+    transition: transform 300ms ease-in-out; 
+    /* MOBILE CHANGES END */
+}
+
+/* Class to open the sidebar (Needs JavaScript to be toggled) */
+.sidebar.open {
+    transform: translateX(0);
+}
+
+/* Sidebar Backdrop (To dim background when sidebar is open on mobile) */
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 30;
+    display: none; /* Default hidden */
+}
+
+.sidebar-backdrop.active {
+    display: block; /* Active when sidebar is open */
 }
 
 .logo-section {
@@ -191,6 +225,23 @@ body {
     gap: 1rem; 
 }
 
+/* NEW: Mobile Menu Button Styling */
+.menu-toggle-btn {
+    display: block; /* Show by default on mobile */
+    background: none;
+    border: none;
+    color: var(--text-dark);
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.menu-toggle-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+
 .search-container {
     display: flex;
     align-items: center;
@@ -200,7 +251,7 @@ body {
     border-radius: 9999px; 
     border: 1px solid rgb(209, 213, 219); 
     flex: 1;
-    max-width: 28rem; 
+    max-width: 20rem; /* Adjusted for better mobile fit */
 }
 
 .search-icon {
@@ -252,7 +303,7 @@ body {
 /* --- Dashboard Grid and Content --- */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Default: Single column */
+    grid-template-columns: 1fr; /* Default: Single column for mobile */
     gap: 1.5rem; 
     padding: 1.5rem; 
     margin-left: auto;
@@ -524,12 +575,32 @@ body {
 
 /* --- Media Query for Medium Devices (md) --- */
 @media (min-width: 768px) {
+    /* Sidebar: Desktop par waapis laana */
+    .sidebar {
+        position: static; 
+        transform: translateX(0); 
+        width: 16rem; 
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Header: Menu button chupana */
+    .menu-toggle-btn {
+        display: none; 
+    }
+    
+    /* Search Bar: Max width badhana */
+    .search-container {
+        max-width: 28rem;
+    }
+    
+    /* Dashboard Grid: Two columns karna */
     .dashboard-grid {
-        grid-template-columns: 3fr 1fr; /* Two columns for tablet/desktop */
+        grid-template-columns: 3fr 1fr; 
     }
 
+    /* Aside Section: Show Trending Topics */
     .aside-section {
-        display: block; /* Show trending topics sidebar */
+        display: block; 
     }
 }
 
